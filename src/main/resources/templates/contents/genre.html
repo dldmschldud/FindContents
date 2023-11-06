@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <title>Romance</title>
+    <link th:href="@{/css/romance.css}" rel="stylesheet" />
+</head>
+<div layout:fragment="content">
+
+    <div class="row mt-3">
+        <form action="/contents/genre" method="get">
+            <div class="col">
+                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select class="form-select" name="type">
+                            <option value="t" th:selected="${pageRequestDTO.type =='twe'}">검색</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary searchBtn" type="submit">Search</button>
+                        <button class="btn btn-outline-secondary clearBtn" type="button">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row mt-3">
+        <div class="genre">
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='romance')}'|">romance</button>
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='comedy')}'|">comedy</button>
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='SF')}'|">SF</button>
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='action')}'|">action</button>
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='horror')}'|">horror</button>
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='animation')}'|">animation</button>
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='medical')}'|">medical</button>
+            <button class="genre-design" th:onclick="|location.href='@{/contents/genre(genre='criminal')}'|">criminal</button>
+        </div>
+
+
+        <div class="picture">
+            <div th:each="dto:${responseDTO.dtoList}">
+                <div class="picture-contents">
+                    <a th:href="|@{/contents/read(id =${dto.id})}|" class="text-decoration-none title-color"> [[${dto.title}]] </a>
+                    <div th:if="${dto.contentsImages != null && dto.contentsImages.size() > 0}">
+                        <a th:href="|@{/contents/read(id =${dto.id})}|">
+                            <img style="width:100px" th:each="contentsImage: ${dto.contentsImages}" th:src="|/view/s_${contentsImage.uuid}_${contentsImage.fileName}|">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="float-end">
+                <ul class="pagination flex-wrap">
+
+                    <li class="page-item" th:if="${responseDTO.prev}">
+                        <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                    </li>
+
+                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                        <li th:class="${responseDTO.page == i}?'page-item active':'page-item'" >
+                            <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+
+                    <li class="page-item" th:if="${responseDTO.next}">
+                        <a class="page-link"  th:data-num="${responseDTO.end + 1}">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- end col-->
+    </div><!-- end row-->
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    const genre = [[${genre}]]
+
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(target.tagName !== 'A') {
+            return
+        }
+
+        const num = target.getAttribute("data-num")
+        const formObj = document.querySelector("form")
+
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+        formObj.innerHTML += `<input type='hidden' name='genre' value='${genre}'>`
+        formObj.submit();
+
+    },false)
+
+    document.querySelector(".clearBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        self.location ='/contents/romance'
+
+    },false)
+
+
+</script>

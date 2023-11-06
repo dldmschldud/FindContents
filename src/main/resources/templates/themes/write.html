@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:sec="www.http://thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
+<head>
+    <title>Write</title>
+</head>
+<div layout:fragment="content">
+    <!--여기부터-->
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    테마 등록하기
+                </div>
+                <div class="card-body">
+                    <form action="/themes/write" method="post">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">테마 이름</span>
+                            <input type="text" name="thTitle" class="form-control" placeholder="Title">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">테마 설명</span>
+                            <textarea class="form-control col-sm-5" rows="5" name="thExplanation"></textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">테마 작성자</span>
+                            <input type="text" name="thWriter" class="form-control" placeholder="Writer" th:value="${#authentication.principal.username}" readonly>
+                        </div>
+
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div><!--end card body-->
+
+            </div><!--end card-->
+        </div><!-- end col-->
+    </div><!-- end row-->
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/upload.js"></script>
+</div>
+
+
+<script layout:fragment="script" th:inline="javascript">
+
+    const auth = [[${#authentication}]]
+
+    const errors = [[${errors}]]
+    console.log(errors)
+
+    let errorMsg = ''
+
+    if(errors){
+        for (let i = 0; i < errors.length; i++) {
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        alert(errorMsg)
+    }
+
+    document.querySelector(".submitBtn").addEventListener("click", function(e){
+
+        e.preventDefault()
+        e.stopPropagation()
+
+        const formObj = document.querySelector("form");
+
+        formObj.submit();
+
+    }, false)
+
+
+</script>

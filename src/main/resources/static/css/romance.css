@@ -1,0 +1,29 @@
+.picture{
+    display: flex;
+    margin: 10px 10px;
+    text-align: center;
+    justify-content: space-evenly;
+}
+
+.picture-contents{
+    margin: 10px 10px;
+}
+.genre{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.genre-design{
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    color: #0a53be;
+    font-size: large;
+}
+
+a{
+    text-decoration: none;
+}
