@@ -11,6 +11,7 @@ public class CustomServletConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //정적 파일 경로 문제 해결
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("classpath:/static/js/");
         registry.addResourceHandler("/fonts/**")
