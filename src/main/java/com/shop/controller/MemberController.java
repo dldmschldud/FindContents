@@ -44,7 +44,6 @@ public class MemberController {
     @PostMapping("/join")
     public String joinPOST(@Valid MemberJoinDTO memberJoinDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         log.info("join post......");
-        log.info("checkkkkkkkkkkkkkk"+memberJoinDTO);
 
         if(bindingResult.hasErrors()){
             List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());

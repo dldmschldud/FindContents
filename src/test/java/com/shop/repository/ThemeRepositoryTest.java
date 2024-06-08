@@ -19,7 +19,7 @@ class ThemeRepositoryTest {
 
     @Test
     public void testInsert() {
-        IntStream.rangeClosed(11,20).forEach(i -> {
+        IntStream.rangeClosed(1,20).forEach(i -> {
             Theme theme = Theme.builder()
                     .thTitle("title"+i)
                     .thExplanation("explanation"+i)
@@ -29,14 +29,6 @@ class ThemeRepositoryTest {
 
         });
     }
-    @Test
-    public void testDelete() {
-        for (Long i=1L;i<18L;i++){
-            themeRepository.deleteById(i);
-        }
-    }
-
-
 
 
 }

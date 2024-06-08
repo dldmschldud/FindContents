@@ -72,7 +72,7 @@ public class ThemeController {
                          @Valid ThemeDTO themeDTO,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes){
-        log.info("BBB"+themeDTO);
+        log.info(themeDTO);
         if(bindingResult.hasErrors()){
             String link = pageRequestDTO.getLink();
             redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());

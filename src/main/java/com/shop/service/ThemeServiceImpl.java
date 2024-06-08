@@ -69,7 +69,6 @@ public class ThemeServiceImpl implements ThemeService{
         Optional<Theme> result = themeRepository.findById(themeDTO.getTid());
         Theme theme = result.orElseThrow();
         theme.change(themeDTO.getThTitle(),themeDTO.getThExplanation());
-        log.info("fdfd");
 
     }
 

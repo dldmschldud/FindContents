@@ -47,7 +47,6 @@ public class  ReplyController {
     public PageResponseDTO<ReplyDTO> getList(@PathVariable("id") Long id,
                                              PageRequestDTO pageRequestDTO){
         PageResponseDTO<ReplyDTO> responseDTO = replyService.getListOfContents(id,pageRequestDTO);
-        log.info("Restcontroller getList");
         log.info(pageRequestDTO);
 
 
@@ -59,7 +58,6 @@ public class  ReplyController {
     public ReplyDTO getReplyDTO(@PathVariable("rid") Long rid){
 
         ReplyDTO replyDTO = replyService.read(rid);
-        log.info("Restcontroller getReply");
         log.info(replyDTO);
         return replyDTO;
     }
@@ -70,7 +68,6 @@ public class  ReplyController {
         replyService.remove(rid);
         Map<String,Long> resultMap = new HashMap<>();
         resultMap.put("rid",rid);
-        log.info("Restcontroller remove");
 
         return resultMap;
     }
@@ -82,7 +79,6 @@ public class  ReplyController {
         replyService.modify(replyDTO);
         Map<String,Long>resultMap=new HashMap<>();
         resultMap.put("rid",rid);
-        log.info("Restcontroller update");
 
         return resultMap;
     }

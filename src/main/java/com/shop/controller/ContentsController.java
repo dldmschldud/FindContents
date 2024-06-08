@@ -151,7 +151,7 @@ public class ContentsController {
                 String contentType = Files.probeContentType(resource.getFile().toPath());
                 resource.getFile().delete();
 
-                //섬네일이 존재한다면
+                //썸네일이 존재한다면
                 if (contentType.startsWith("image")) {
                     File thumbnailFile = new File(uploadPath + File.separator + "s_" + fileName);
                     thumbnailFile.delete();
