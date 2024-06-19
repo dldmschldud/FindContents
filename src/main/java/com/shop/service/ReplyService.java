@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import com.shop.domain.Reply;
 import com.shop.dto.PageRequestDTO;
 import com.shop.dto.PageResponseDTO;
 import com.shop.dto.ReplyDTO;

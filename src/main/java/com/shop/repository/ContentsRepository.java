@@ -14,10 +14,6 @@ public interface ContentsRepository extends JpaRepository<Contents, Long>, Conte
     String getTime();
 
 
-    @EntityGraph(attributePaths = {"imageSet"})
-    @Query("select c from Contents c where c.id = :id")
-    Optional<Contents> findByIdWithImages(Long id);
-
 
 
 }

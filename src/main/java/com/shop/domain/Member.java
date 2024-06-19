@@ -1,13 +1,9 @@
 package com.shop.domain;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import lombok.*;
-import org.springframework.boot.test.autoconfigure.data.ldap.AutoConfigureDataLdap;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

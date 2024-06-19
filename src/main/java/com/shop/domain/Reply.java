@@ -20,7 +20,6 @@ public class Reply extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Contents contents;
 
-
     @NotEmpty
     private String replyText;
 
@@ -30,6 +29,10 @@ public class Reply extends BaseEntity{
     public void changeText(String text){
 
         this.replyText = text;
+    }
+
+    public void setContents(Contents contents){
+        this.contents = contents;
     }
 
 }

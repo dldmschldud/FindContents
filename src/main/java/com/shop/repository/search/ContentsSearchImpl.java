@@ -7,7 +7,6 @@ import com.querydsl.jpa.JPQLQuery;
 import com.shop.domain.Contents;
 import com.shop.domain.QContents;
 import com.shop.domain.QReply;
-import com.shop.dto.ContentsImageDTO;
 import com.shop.dto.ContentsListAllDTO;
 import com.shop.dto.ContentsListReplyCountDTO;
 import com.shop.dto.ContentsOttDTO;
@@ -165,17 +164,9 @@ public class ContentsSearchImpl extends QuerydslRepositorySupport implements Con
                     .regDate(contents1.getRegDate())
                     .replyCount(replyCount)
                     .build();
-
-            List<ContentsImageDTO> imageDTOs = contents1.getImageSet().stream().sorted()
-                    .map(contentsImage -> ContentsImageDTO.builder()
-                            .uuid(contentsImage.getUuid())
-                            .fileName(contentsImage.getFileName())
-                            .ord(contentsImage.getOrd())
-                            .build()
-                    ).collect(Collectors.toList());
-            dto.setContentsImages(imageDTOs);
             return dto;
         }).collect(Collectors.toList());
+
         long totalCount = contentsJPQLQuery.fetchCount();
         return new PageImpl<>(dtoList, pageable, totalCount);
 
@@ -230,14 +221,6 @@ public class ContentsSearchImpl extends QuerydslRepositorySupport implements Con
                     .replyCount(replyCount)
                     .build();
 
-            List<ContentsImageDTO> imageDTOs = contents1.getImageSet().stream().sorted()
-                    .map(contentsImage -> ContentsImageDTO.builder()
-                            .uuid(contentsImage.getUuid())
-                            .fileName(contentsImage.getFileName())
-                            .ord(contentsImage.getOrd())
-                            .build()
-                    ).collect(Collectors.toList());
-            dto.setContentsImages(imageDTOs);
             return dto;
         }).collect(Collectors.toList());
         long totalCount = contentsJPQLQuery.fetchCount();
@@ -294,14 +277,6 @@ public class ContentsSearchImpl extends QuerydslRepositorySupport implements Con
                     .replyCount(replyCount)
                     .build();
 
-            List<ContentsImageDTO> imageDTOs = contents1.getImageSet().stream().sorted()
-                    .map(contentsImage -> ContentsImageDTO.builder()
-                            .uuid(contentsImage.getUuid())
-                            .fileName(contentsImage.getFileName())
-                            .ord(contentsImage.getOrd())
-                            .build()
-                    ).collect(Collectors.toList());
-            dto.setContentsImages(imageDTOs);
             return dto;
         }).collect(Collectors.toList());
         long totalCount = contentsJPQLQuery.fetchCount();
@@ -358,14 +333,6 @@ public class ContentsSearchImpl extends QuerydslRepositorySupport implements Con
                     .replyCount(replyCount)
                     .build();
 
-            List<ContentsImageDTO> imageDTOs = contents1.getImageSet().stream().sorted()
-                    .map(contentsImage -> ContentsImageDTO.builder()
-                            .uuid(contentsImage.getUuid())
-                            .fileName(contentsImage.getFileName())
-                            .ord(contentsImage.getOrd())
-                            .build()
-                    ).collect(Collectors.toList());
-            dto.setContentsImages(imageDTOs);
             return dto;
         }).collect(Collectors.toList());
         long totalCount = contentsJPQLQuery.fetchCount();

@@ -17,18 +17,5 @@ class ThemeRepositoryTest {
     @Autowired
     ThemeRepository themeRepository;
 
-    @Test
-    public void testInsert() {
-        IntStream.rangeClosed(1,20).forEach(i -> {
-            Theme theme = Theme.builder()
-                    .thTitle("title"+i)
-                    .thExplanation("explanation"+i)
-                    .thWriter("user"+i)
-                    .build();
-            Theme result = themeRepository.save(theme);
-
-        });
-    }
-
 
 }

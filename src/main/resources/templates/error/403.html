@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/error.css}" rel="stylesheet" />
+
+</head>
+<body>
+
+    <div class="error-div">
+        <p>페이지를 찾을수없습니다</p>
+        <p>주소가 잘못되었거나 변경 또는 삭제 되었을수 있어요</p>
+        <p>다시한번 확인 부탁드립니다</p>
+
+        <a th:href="|@{/contents/list}|" class="text-decoration-none">
+            <button type="button" class="btn btn-primary">Home</button>
+        </a>
+
+    </div>
+
+
+
+
+</body>
+</html>

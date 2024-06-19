@@ -16,7 +16,6 @@ public interface ContentsService {
     PageResponseDTO<ContentsDTO> list(PageRequestDTO pageRequestDTO);
     PageResponseDTO<ContentsListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO);
 
-    //게시글의 이미지와 댓글의 갯수까지 처리
     PageResponseDTO<ContentsListAllDTO> listWithAll(PageRequestDTO pageRequestDTO);
     PageResponseDTO<ContentsListAllDTO> genreList(String genre, PageRequestDTO pageRequestDTO);
     PageResponseDTO<ContentsListAllDTO> movieList(PageRequestDTO pageRequestDTO);
@@ -36,13 +35,7 @@ public interface ContentsService {
                 .disney(contentsDTO.getDisney())
                 .watcha(contentsDTO.getWatcha())
                 .build();
-        if(contentsDTO.getFileNames() != null){
-            contentsDTO.getFileNames().forEach(fileName -> {
-                String[] arr = fileName.split("_");
-                contents.addImage(arr[0],arr[1]);
-            });
 
-        }
         return contents;
     }
 
@@ -61,10 +54,6 @@ public interface ContentsService {
                 .watcha(contents.getWatcha())
                 .build();
 
-        List<String> fileNames =
-                contents.getImageSet().stream().sorted().map(contentsImage ->
-                        contentsImage.getUuid()+"_"+contentsImage.getFileName()).collect(Collectors.toList());
-       contentsDTO.setFileNames(fileNames);
        return contentsDTO;
     }
 

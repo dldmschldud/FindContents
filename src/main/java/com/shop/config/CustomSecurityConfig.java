@@ -37,6 +37,7 @@ public class CustomSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.info("-----------configuration---------------");
+
         http.formLogin()
                 .loginPage("/member/login")
                         .defaultSuccessUrl("/contents/list")
@@ -47,7 +48,6 @@ public class CustomSecurityConfig {
                                                                 .logoutSuccessUrl("/contents/list");
         //CSRF토큰 비활성화
         http.csrf().disable();
-
 
         http.rememberMe()
                 .key("12345678")//쿠키값 인코딩을 위한 키값

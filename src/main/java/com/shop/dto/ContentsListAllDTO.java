@@ -22,5 +22,4 @@ public class ContentsListAllDTO {
     private Long replyCount;
     private String category;
     private String cType;
-    private List<ContentsImageDTO> contentsImages;
 }

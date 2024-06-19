@@ -49,15 +49,6 @@
                     </div>
                 </div><!--end card body-->
 
-                <div class="col">
-
-                    <div class="card" th:if="${dto.fileNames != null && dto.fileNames.size() > 0}">
-
-                        <img class="card-img-top"
-                             th:each="fileName: ${dto.fileNames}"\
-                        th:src="|/view/${fileName}|">
-                    </div>
-                </div>
             </div><!--end card-->
         </div><!-- end col-->
     </div><!-- end row-->
@@ -130,12 +121,13 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    const id = [[${dto.id}]]
+    const id = [[${dto.id}]]//dto - ContentsDTO
 
     const currentUser = [[${#authentication.principal.username}]]
     const replyList = document.querySelector('.replyList')//댓글목록 DOM
     const replyPaging = document.querySelector('.replyPaging')//페이지 목록 DOM
     function printList(dtoList){
+        //List<ReplyDTO> dtoList
         let str = '';
         if(dtoList && dtoList.length>0){
             for (const dto of dtoList) {
@@ -270,7 +262,6 @@
         }
 
         getReply(rid).then(reply => { //댓글의 내용을 모달창에 채워서 보여주는
-
             console.log(reply)
             replyHeader.innerHTML = reply.rid
             modifyText.value = reply.replyText

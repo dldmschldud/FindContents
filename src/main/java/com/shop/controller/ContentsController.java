@@ -5,8 +5,6 @@ import com.shop.service.ContentsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,18 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.nio.file.Files;
-import java.util.List;
-
 @Controller
 @Log4j2
 @RequestMapping("/contents")
 @RequiredArgsConstructor
 public class ContentsController {
 
-    @Value("${org.zerock.upload.path")
-    private String uploadPath;
     private final ContentsService contentsService;
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model){
@@ -46,7 +38,7 @@ public class ContentsController {
     }
     @GetMapping("/genre")
     public void genre(String genre, PageRequestDTO pageRequestDTO, Model model){
-
+        pageRequestDTO.setSize(5);
         PageResponseDTO<ContentsListAllDTO> responseDTO =
                 contentsService.genreList(genre,pageRequestDTO);
         model.addAttribute("responseDTO",responseDTO);
@@ -66,13 +58,13 @@ public class ContentsController {
         model.addAttribute("responseDTO",responseDTO);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/register")
     public void registerGET() {
         log.info("-------------------registerGET---------------------");
 
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register")
     public String registerPost(@Valid ContentsDTO contentsDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         log.info("contents POST register......");
@@ -88,11 +80,18 @@ public class ContentsController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping({"/read", "/modify"})
+    @GetMapping("/read")
     public void read(Long id, PageRequestDTO pageRequestDTO, Model model) {
         ContentsDTO contentsDTO = contentsService.readOne(id);
         model.addAttribute("dto",contentsDTO);
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping({ "/modify"})
+    public void modifyGet(Long id, PageRequestDTO pageRequestDTO, Model model) {
+        ContentsDTO contentsDTO = contentsService.readOne(id);
+        model.addAttribute("dto",contentsDTO);
+    }
+
 
     @PreAuthorize("principal.username == #contentsDTO.writer")
     @PostMapping("/modify")
@@ -125,12 +124,6 @@ public class ContentsController {
 
         contentsService.remove(id);
 
-        //게시물이 삭제되었다면 첨부 파일 삭제
-        log.info(contentsDTO.getFileNames());
-        List<String> fileNames = contentsDTO.getFileNames();
-        if(fileNames != null && fileNames.size() > 0){
-            removeFiles(fileNames);
-        }
 
         redirectAttributes.addFlashAttribute("result", "removed");
 
@@ -138,30 +131,5 @@ public class ContentsController {
 
     }
 
-
-    public void removeFiles(List<String> files){
-
-        for (String fileName:files) {
-
-            Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
-            String resourceName = resource.getFilename();
-
-
-            try {
-                String contentType = Files.probeContentType(resource.getFile().toPath());
-                resource.getFile().delete();
-
-                //썸네일이 존재한다면
-                if (contentType.startsWith("image")) {
-                    File thumbnailFile = new File(uploadPath + File.separator + "s_" + fileName);
-                    thumbnailFile.delete();
-                }
-
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            }
-
-        }
-    }
 
 }

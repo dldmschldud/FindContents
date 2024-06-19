@@ -1,5 +1,6 @@
 package com.shop.controller;
 
+import com.shop.domain.Reply;
 import com.shop.dto.PageRequestDTO;
 import com.shop.dto.PageResponseDTO;
 import com.shop.dto.ReplyDTO;
@@ -7,6 +8,7 @@ import com.shop.service.ReplyService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -18,6 +20,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -27,7 +30,54 @@ import java.util.Map;
 public class  ReplyController {
     private final ReplyService replyService;
 
-    @ApiOperation(value = "Replies POST", notes = "POST 방식으로 댓글등록")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String,Long>> register(@Valid @RequestBody ReplyDTO replyDTO,
+                                     BindingResult bindingResult)throws BindException {
+        if(bindingResult.hasErrors()){
+            throw new BindException((bindingResult));
+        }
+        Map<String,Long> result = new HashMap<>();
+        Long rid = replyService.register(replyDTO);
+        result.put("rid",rid);
+        return ResponseEntity.ok().body(result);
+    }
+
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity getList(@PathVariable("id") Long id, PageRequestDTO pageRequestDTO){
+        PageResponseDTO<ReplyDTO> responseDTO = replyService.getListOfContents(id,pageRequestDTO);
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+    }
+
+    @GetMapping("/{rid}")
+    public ResponseEntity<ReplyDTO> getReplyDTO(@PathVariable("rid") Long rid){
+        ReplyDTO reply = replyService.read(rid);
+        return ResponseEntity.ok(reply);
+    }
+
+    @DeleteMapping("/{rid}")
+    public ResponseEntity<Map<String,Long>> remove(@PathVariable("rid") Long rid){
+        replyService.remove(rid);
+        Map<String,Long> result = new HashMap<>();
+        result.put("rid",rid);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @PutMapping(value = "/{rid}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String,Long>> modify(@PathVariable("rid") Long rid, @RequestBody
+    ReplyDTO replyDTO){
+        log.info(replyDTO);
+        replyService.modify(replyDTO);
+        Map<String,Long> result = new HashMap<>();
+        result.put("rid",rid);
+        return ResponseEntity.ok().body(result);
+
+    }
+
+
+
+    /*
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String,Long> register(@Valid @RequestBody ReplyDTO replyDTO,
                                      BindingResult bindingResult)throws BindException {
@@ -42,7 +92,7 @@ public class  ReplyController {
         return resultMap;
     }
 
-    @ApiOperation(value = "Replies of Contents", notes = "get방식으로 특정 게시물의 댓글 목록")
+
     @GetMapping(value = "/list/{id}")
     public PageResponseDTO<ReplyDTO> getList(@PathVariable("id") Long id,
                                              PageRequestDTO pageRequestDTO){
@@ -53,7 +103,6 @@ public class  ReplyController {
         return responseDTO;
 
     }
-    @ApiOperation(value = "read reply", notes="get방식으로 특정 댓글 조회")
     @GetMapping(value = "/{rid}")
     public ReplyDTO getReplyDTO(@PathVariable("rid") Long rid){
 
@@ -62,7 +111,14 @@ public class  ReplyController {
         return replyDTO;
     }
 
-    @ApiOperation(value = "Delete reply", notes = "delete방식으로 특정 댓글 삭제")
+
+    @GetMapping("/{rid}")
+    public ResponseEntity getReplyDTO(@PathVariable("rid") Long rid){
+        ReplyDTO reply = replyService.read(rid);
+        return new ResponseEntity<>(reply,HttpStatus.OK);
+
+    }
+
     @DeleteMapping("/{rid}")
     public Map<String,Long> remove(@PathVariable("rid") Long rid){
         replyService.remove(rid);
@@ -71,7 +127,8 @@ public class  ReplyController {
 
         return resultMap;
     }
-    @ApiOperation(value = "modify replly", notes = "put방식으로 특정 댓글 수정")
+
+
     @PutMapping(value = "/{rid}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String,Long> modify(@PathVariable("rid") Long rid, @RequestBody ReplyDTO replyDTO) {
         log.info(replyDTO);
@@ -83,4 +140,5 @@ public class  ReplyController {
         return resultMap;
     }
 
+     */
 }

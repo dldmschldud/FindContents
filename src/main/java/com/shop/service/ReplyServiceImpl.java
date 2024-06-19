@@ -1,9 +1,11 @@
 package com.shop.service;
 
+import com.shop.domain.Contents;
 import com.shop.domain.Reply;
 import com.shop.dto.PageRequestDTO;
 import com.shop.dto.PageResponseDTO;
 import com.shop.dto.ReplyDTO;
+import com.shop.repository.ContentsRepository;
 import com.shop.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -25,15 +28,33 @@ import java.util.stream.Collectors;
 public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;
+
+    private final ContentsRepository contentsRepository;
     private final ModelMapper modelMapper;
 
     @Override
     public Long register(ReplyDTO replyDTO){
-        Reply reply = modelMapper.map(replyDTO,Reply.class);
+        Optional<Contents> contentsOptional = contentsRepository.findById(replyDTO.getId());
+        Contents contents = contentsOptional.orElseThrow();
+
+        Reply reply = Reply.builder()
+                .contents(contents)
+                .replyText(replyDTO.getReplyText())
+                .replyer(replyDTO.getReplyer())
+                .rid(replyDTO.getRid())
+                .build();
+
 
         Long rid = replyRepository.save(reply).getRid();
 
         return rid;
+
+        /*
+        Reply reply = modelMapper.map(replyDTO,Reply.class);
+
+        Long rid = replyRepository.save(reply).getRid();
+
+        return rid;*/
     }
 
     @Override
@@ -49,6 +70,7 @@ public class ReplyServiceImpl implements ReplyService {
         Optional<Reply> replyOptional = replyRepository.findById(replyDTO.getRid());
         Reply reply = replyOptional.orElseThrow();
         reply.changeText(replyDTO.getReplyText());
+
     }
 
     @Override

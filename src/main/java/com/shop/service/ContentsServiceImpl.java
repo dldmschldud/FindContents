@@ -29,7 +29,6 @@ public class ContentsServiceImpl implements ContentsService{
     public Long register(ContentsDTO contentsDTO) {
         //Contents contents = modelMapper.map(contentsDTO, Contents.class);
         Contents contents = dtoToEntity(contentsDTO);
-
         Long id = contentsRepository.save(contents).getId();
 
         return id;
@@ -38,8 +37,7 @@ public class ContentsServiceImpl implements ContentsService{
 
     @Override
     public ContentsDTO readOne(Long id) {
-        //Optional<Contents> result = contentsRepository.findById(id);
-        Optional<Contents> result = contentsRepository.findByIdWithImages(id);
+        Optional<Contents> result = contentsRepository.findById(id);
         Contents contents = result.orElseThrow();
         //ContentsDTO contentsDTO = modelMapper.map(contents, ContentsDTO.class);
         ContentsDTO contentsDTO = entityToDTO(contents);
@@ -54,17 +52,6 @@ public class ContentsServiceImpl implements ContentsService{
         Contents contents = result.orElseThrow();
         contents.change(contentsDTO.getTitle(),contentsDTO.getExplanation(),contentsDTO.getWriter(),contentsDTO.getCategory(),contentsDTO.getCType(),contentsDTO.getNetflix(),contentsDTO.getDisney(),contentsDTO.getWatcha()
         );
-        contents.clearImages();
-
-        if(contentsDTO.getFileNames() != null) {
-            for(String fileName: contentsDTO.getFileNames()) {
-                String [] arr = fileName.split("_");
-                contents.addImage(arr[0],arr[1]);
-            }
-            contentsRepository.save(contents);
-        }
-
-
 
     }
 
@@ -90,6 +77,7 @@ public class ContentsServiceImpl implements ContentsService{
                 .total((int)result.getTotalElements())
                 .build();
     }
+
     @Override
     public PageResponseDTO<ContentsListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO) {
         String[] types = pageRequestDTO.getTypes();

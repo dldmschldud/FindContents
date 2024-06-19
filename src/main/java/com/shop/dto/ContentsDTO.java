@@ -41,13 +41,9 @@ public class ContentsDTO {
     @NotEmpty
     private String disney;
 
-
-
-
     private LocalDateTime regDate;
     private LocalDateTime modDate;
 
-    private List<String> fileNames;
 
 
 }
