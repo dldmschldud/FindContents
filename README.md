@@ -23,4 +23,8 @@
 + Spring data Jpa
 + AWS(EC2, RDS)
 
+## 데이터베이스 ERD
+![erd](https://github.com/dldmschldud/FindContents/blob/main/findcontentsERD.png)
+
+
 
