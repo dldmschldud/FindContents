@@ -78,9 +78,9 @@ public class ContentsController {
         redirectAttributes.addFlashAttribute("result",id);
         return "redirect:/contents/list";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/read")
-    public void read(Long id, PageRequestDTO pageRequestDTO, Model model) {
+   public void read(Long id, PageRequestDTO pageRequestDTO, Model model) {
         ContentsDTO contentsDTO = contentsService.readOne(id);
         model.addAttribute("dto",contentsDTO);
     }
