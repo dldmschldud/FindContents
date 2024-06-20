@@ -79,7 +79,6 @@ public class ContentsController {
         return "redirect:/contents/list";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/read")
     public void read(Long id, PageRequestDTO pageRequestDTO, Model model) {
         ContentsDTO contentsDTO = contentsService.readOne(id);
