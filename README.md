@@ -27,7 +27,5 @@
 ![erd](https://github.com/dldmschldud/FindContents/blob/main/findcontentsERD.png)
 
 ## 인덱스를 통한 쿼리 성능 개선
-
-
-
+(https://blog.naver.com/qksdlwldlrkd/223466704597)
 
