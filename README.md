@@ -26,5 +26,8 @@
 ## 데이터베이스 ERD
 ![erd](https://github.com/dldmschldud/FindContents/blob/main/findcontentsERD.png)
 
+## 인덱스를 통한 쿼리 성능 개선
+
+
 
 
