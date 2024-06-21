@@ -26,6 +26,9 @@
 ## 데이터베이스 ERD
 ![erd](https://github.com/dldmschldud/FindContents/blob/main/findcontentsERD.png)
 
-## 인덱스를 통한 쿼리 성능 개선
+## 인덱스를 통한 조인 쿼리 성능 개선
 (https://blog.naver.com/qksdlwldlrkd/223466704597)
+
+## 에러페이지 - 사용자가 url을 임의로 조작하는것 방지하기
+(https://blog.naver.com/qksdlwldlrkd/223487420973)
 
